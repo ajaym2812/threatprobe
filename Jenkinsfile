@@ -71,8 +71,8 @@ pipeline {
             steps {
 	   timeout(time: 3, unit: 'MINUTES') {
               sshagent(['app-server']) {
-                sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@172.31.9.102:/WebGoat'
-		sh 'ssh -o  StrictHostKeyChecking=no security@172.31.9.102 "nohup java -jar /WebGoat/webgoat-server-v8.2.0-SNAPSHOT.jar &"'
+                sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@3.109.152.116:/WebGoat'
+		sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.109.152.116 "nohup java -jar /WebGoat/webgoat-server-v8.2.0-SNAPSHOT.jar &"'
                   }
 	     }
         }     
