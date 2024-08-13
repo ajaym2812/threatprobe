@@ -47,6 +47,8 @@ pipeline {
 			stage ('Generate build') {
 			    steps {
 			        sh 'mvn clean install ' // -DskipTests'
+				sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+
 			        
 			    }
 			}
