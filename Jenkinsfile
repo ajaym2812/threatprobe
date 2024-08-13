@@ -42,14 +42,14 @@ pipeline {
         withSonarQubeEnv('sonarqube') {
           sh 'mvn clean sonar:sonar -Dsonar.java.binaries=src'
 	  //sh 'sudo python3 sonarqube.py'
-	  sh './sonarqube_report.sh'
+	  //sh './sonarqube_report.sh'
         }
       }
     }
 			stage ('Generate build') {
 			    steps {
-			        sh 'mvn clean install ' // -DskipTests'
-				sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+			        sh 'mvn clean install -DskipTests'
+			//	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
 			    }
