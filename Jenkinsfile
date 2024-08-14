@@ -56,8 +56,8 @@ pipeline {
 	 // 			//sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
-	 		   }
-	 		}
+	 		 //  }
+	 		//}
 	    stage ('Deploy to server') {
               steps {
 	  sh 'mvn clean install -DskipTests'
