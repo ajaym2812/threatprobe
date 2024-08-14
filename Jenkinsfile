@@ -46,14 +46,14 @@ pipeline {
         }
       }
     }
-			// stage ('Generate build') {
-			//     steps {
-			//         sh 'mvn clean install -DskipTests'
-			// //	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+			stage ('Generate build') {
+			    steps {
+			        sh 'mvn clean install -DskipTests'
+			//	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
-			//     }
-			// }
+			    }
+			}
 	  stage ('Deploy to server') {
             steps {
 	   timeout(time: 3, unit: 'MINUTES') {
