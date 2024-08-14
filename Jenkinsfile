@@ -48,8 +48,8 @@ pipeline {
     }
 	// stage ('Generate build') {
 	// 	steps {
-	  		sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 2000
-			sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1000
+	  		sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 2000'
+			sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1000'
 	 		sh 'mvn clean install -DskipTests'
 	// 			//sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
