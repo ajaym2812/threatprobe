@@ -46,24 +46,24 @@ pipeline {
         }
       }
     }
-			// stage ('Generate build') {
-			//     steps {
-			//         sh 'mvn clean install -DskipTests'
-			// 	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+			stage ('Generate build') {
+			    steps {
+			        sh 'mvn clean install -DskipTests'
+				//sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
-			//    }
-			// }
-	    stage ('Deploy to server') {
-              steps {
-	 // sh 'mvn clean install -DskipTests'
-	     timeout(time: 3, unit: 'MINUTES') {
-                sshagent(['app-server']) {
-                 sh 'scp -o StrictHostKeyChecking=no /home/ubuntu/web/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
-		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
-                    }
-	       }
-          }     
-      }
+			   }
+			}
+	 //    stage ('Deploy to server') {
+  //             steps {
+	 // // sh 'mvn clean install -DskipTests'
+	 //     timeout(time: 3, unit: 'MINUTES') {
+  //               sshagent(['app-server']) {
+  //                sh 'scp -o StrictHostKeyChecking=no /home/ubuntu/web/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
+		//  sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
+  //                   }
+	 //       }
+  //         }     
+  //     }
 	}
 	}
