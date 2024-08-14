@@ -46,24 +46,24 @@ pipeline {
         }
       }
     }
-			//stage ('Generate build') {
-			    //steps {
-			        //sh 'mvn clean install -DskipTests'
-			//	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+			// stage ('Generate build') {
+			//     steps {
+			//         sh 'mvn clean install -DskipTests'
+			// 	sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
-			  //  }
-			//}
-	   stage ('Deploy to server') {
-             steps {
-	    timeout(time: 3, unit: 'MINUTES') {
-               sshagent(['app-server']) {
-		sh 'mvn clean install -DskipTests'
-                 //sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@3.110.210.81:/WebGoat'
-		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
-                   }
-	      }
-         }     
-     }
+			//    }
+			// }
+	 //   stage ('Deploy to server') {
+  //            steps {
+	 //    timeout(time: 3, unit: 'MINUTES') {
+  //              sshagent(['app-server']) {
+		// sh 'mvn clean install -DskipTests'
+  //                //sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@3.110.210.81:/WebGoat'
+		//  sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
+  //                  }
+	 //      }
+  //        }     
+  //    }
 		}
 	}
