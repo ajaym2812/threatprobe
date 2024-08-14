@@ -40,27 +40,27 @@ pipeline {
    stage ('SAST - SonarQube') {
       steps {
         withSonarQubeEnv('sonarqube') {
-	  sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 1000'
-	  sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 2000'
+	  //sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 1000'
+	 // sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 2000'
           sh 'mvn clean sonar:sonar -Dsonar.java.binaries=src'
 	  //sh 'sudo python3 sonarqube.py'
 	  //sh './sonarqube_report.sh'
         }
       }
     }
-	 stage ('Generate build') {
-	 	steps {
-	  		sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 2000'
-	  		sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1000'
-	 		sh 'mvn clean install -DskipTests'
-	 			//sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
+	 // stage ('Generate build') {
+	 // 	steps {
+	 //  		//sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 2000'
+	 //  		//sh 'sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1000'
+	 // 		sh 'mvn clean install -DskipTests'
+	 // 			//sh 'mvn sonar:sonar -Dsonar.java.binaries=target/classes'
 
 			        
 	 		   }
 	 		}
 	    stage ('Deploy to server') {
               steps {
-	 // sh 'mvn clean install -DskipTests'
+	  sh 'mvn clean install -DskipTests'
 	     timeout(time: 3, unit: 'MINUTES') {
                 sshagent(['app-server']) {
                 // sh 'scp -o StrictHostKeyChecking=no /home/ubuntu/web/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
