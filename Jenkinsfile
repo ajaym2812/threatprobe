@@ -56,7 +56,7 @@ pipeline {
 			// }
 	    stage ('Deploy to server') {
               steps {
-	 sh 'mvn clean install -DskipTests'
+	 // sh 'mvn clean install -DskipTests'
 	     timeout(time: 3, unit: 'MINUTES') {
                 sshagent(['app-server']) {
                  sh 'scp -o StrictHostKeyChecking=no /home/ubuntu/web/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
