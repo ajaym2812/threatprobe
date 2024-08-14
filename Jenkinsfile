@@ -36,28 +36,29 @@ pipeline {
     stage ('SAST - SonarQube') {
       steps {
         withSonarQubeEnv('sonarqube') {
-          sh 'mvn clean sonar:sonar -Dsonar.java.binaries=target/classes'
+          sh 'mvn clean sonar:sonar -Dsonar.java.binaries=src'
           // Optionally, run additional scripts
           // sh './sonarqube_report.sh'
         }
       }
     }
     
-    stage ('Generate build') {
-      steps {
-        sh 'mvn clean install -DskipTests'
-      }
-    }
+    // stage ('Generate build') {
+    //   steps {
+    //     sh 'mvn clean install -DskipTests'
+    //   }
+    // }
     
-    stage ('Deploy to server') {
-      steps {
-        timeout(time: 3, unit: 'MINUTES') {
-          sshagent(['app-server']) {
-            //sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@3.110.210.81:/WebGoat'
-            sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
-          }
-        }
-      }
-    }
+    // stage ('Deploy to server') {
+    //   steps {
+    //     //sh 'mvn clean install -DskipTests'
+    //     timeout(time: 3, unit: 'MINUTES') {
+    //       sshagent(['app-server']) {
+    //         //sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/webgoat-devsecops/webgoat-server/target/webgoat-server-v8.2.0-SNAPSHOT.jar ubuntu@3.110.210.81:/WebGoat'
+    //         sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
