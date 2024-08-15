@@ -59,10 +59,10 @@ pipeline {
 	    stage ('Deploy to server') {
               steps {
 	  // sh 'mvn clean install -DskipTests'
-	     timeout(time: 5, unit: 'MINUTES') {
+	     timeout(time: 3, unit: 'MINUTES') {
                 sshagent(['jenkins-ssh-id']) {
                // sh 'scp -o StrictHostKeyChecking=no /tmp/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
-		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
+		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar || true"'
                     }
 	       }
           }     
