@@ -43,7 +43,7 @@ pipeline {
       steps {
         timeout(time: 3, unit: 'MINUTES') {
           sshagent(['jenkins-ssh-id']) {
-            //sh 'scp -o StrictHostKeyChecking=no target/webgoat-2023.8.jar ubuntu@3.110.210.81:/WebGoat/webgoat-2023.8.jar'
+             // sh 'scp -o StrictHostKeyChecking=no target/webgoat-2023.8.jar ubuntu@3.110.210.81:/WebGoat/webgoat-2023.8.jar'
             sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar &"'
           }
         }
