@@ -63,7 +63,7 @@ pipeline {
                 sshagent(['app-server']) {
                // sh 'scp -o StrictHostKeyChecking=no /tmp/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
 		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar || true"'
-			sh 'sudo fuser -k 9090-tcp || true'
+			//sh 'sudo fuser -k 9090-tcp || true'
                     }
 	       }
           }     
