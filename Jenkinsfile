@@ -56,19 +56,29 @@ pipeline {
 			        
 	 		 //  }
 	 		// }
-	    stage ('Deploy to server') {
-              steps {
-	  // sh 'mvn clean install -DskipTests'
-	     timeout(time: 3, unit: 'MINUTES') {
-                sshagent(['app-server']) {
-               // sh 'scp -o StrictHostKeyChecking=no /tmp/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
-			
-		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 sh "fuser -k 9090-tcp || true" "nohup java -jar /WebGoat/webgoat-2023.8.jar || true"'
-			
-                    }
-	       }
-          }     
-      }
+stage('Deploy to server') {
+    steps {
+        timeout(time: 3, unit: 'MINUTES') {
+            sshagent(['app-server']) {
+                sh '''
+                ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 "
+                # Kill the process using port 9090 if any
+                if command -v fuser >/dev/null 2>&1; then
+                    fuser -k 9090/tcp || true
+                else
+                    echo 'fuser not found, using lsof instead.'
+                    lsof -ti:9090 | xargs kill -9 || true
+                fi
+                
+                # Start the Java application in the background
+                nohup java -jar /WebGoat/webgoat-2023.8.jar > /dev/null 2>&1 &
+                "
+                '''
+            }
+        }
+    }
+}
+
 	
 
 	stage ('DAST - OWASP ZAP') {
