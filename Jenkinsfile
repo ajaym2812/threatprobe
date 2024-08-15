@@ -62,8 +62,9 @@ pipeline {
 	     timeout(time: 3, unit: 'MINUTES') {
                 sshagent(['app-server']) {
                // sh 'scp -o StrictHostKeyChecking=no /tmp/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
+			sh 'sudo fuser -k 9090-tcp || true'
 		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar || true"'
-			//sh 'sudo fuser -k 9090-tcp || true'
+			sh 'sudo fuser -k 9090-tcp || true'
                     }
 	       }
           }     
@@ -74,7 +75,7 @@ pipeline {
 	stage ('DAST - OWASP ZAP') {
             steps {
            sshagent(['dast-server']) {
-                sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.111.169.114 "sudo fuser -k 9090-tcp || true" "sudo docker run --rm -v /home/ubuntu:/zap/wrk/:rw -t zaproxy/zap-stable zap-full-scan.py -t http://3.110.210.81:8080/WebGoat -x zap_report || true" '
+                sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.111.169.114 "sudo docker run --rm -v /home/ubuntu:/zap/wrk/:rw -t zaproxy/zap-stable zap-full-scan.py -t http://3.110.210.81:8080/WebGoat -x zap_report || true" '
 		
 		   //sh 'ssh -o  StrictHostKeyChecking=no apps@10.97.109.243 "sudo docker run --rm -v /home/apps:/zap/wrk/:rw -t owasp/zap2docker-stable zap-full-scan.py -t http://10.97.109.244:8081/WebGoat -x zap_report -n defaultcontext.context || true"'
 		sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.111.169.114 "./zap_report.sh"'
