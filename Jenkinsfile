@@ -62,9 +62,9 @@ pipeline {
 	     timeout(time: 3, unit: 'MINUTES') {
                 sshagent(['app-server']) {
                // sh 'scp -o StrictHostKeyChecking=no /tmp/webgoat-2023.8.jar ubuntu@ 3.110.210.81:/WebGoat'
-			sh 'sudo fuser -k 9090-tcp || true'
-		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 "nohup java -jar /WebGoat/webgoat-2023.8.jar || true"'
-			sh 'sudo fuser -k 9090-tcp || true'
+			
+		 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.110.210.81 sh "sudo fuser -k 9090-tcp || true" "nohup java -jar /WebGoat/webgoat-2023.8.jar || true" "sudo fuser -k 9090-tcp || true"'
+			
                     }
 	       }
           }     
