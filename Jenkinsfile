@@ -82,4 +82,41 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    def warFile = '/var/lib/jenkins/workspace/devsecops-pipeline/webgoat-server/target/webgoat-2
+                    def warFile = '/var/lib/jenkins/workspace/devsecops-pipeline/webgoat-server/target/webgoat-2023.8.jar'
+                   
+                    sshagent(['app-server']) {
+                        sh """
+                        scp -o StrictHostKeyChecking=no ${warFile} ubuntu@3.110.210.81:/WebGoat
+                        """
+                       
+                        sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 \
+                        "nohup java -jar /WebGoat/webgoat-2023.8.jar --server.address=0.0.0.0 > logfile.log 2>&1 & disown"
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('DAST - OWASP ZAP') {
+            steps {
+                sshagent(['deploy-ssh']) {
+                    sh '''
+                    sleep 30
+                   
+                    ssh -o StrictHostKeyChecking=no ubuntu@3.111.169.114 \
+                        'echo "ubuntu" | sudo docker run --rm -v /home/ubuntu:/zap/wrk/:rw -t zaproxy/zap-stable zap-full-scan.py -t http://3.110.210.81:8080/WebGoat -x zap_report.yml' || true
+                   
+                    ssh -o StrictHostKeyChecking=no ubuntu@3.111.169.114 \
+                        "curl -X POST 'http://${DOJO_IP}:8080/api/v2/import-scan/' \
+                        -H 'Authorization: Token ${API_KEY}' \
+                        -F 'scan_type=ZAP Scan' \
+                        -F 'file=@/home/ubuntu/zap_report.yml' \
+                        -F 'engagement=3' \
+                        -F 'version=1.0'"
+                    '''
+                }
+            }
+        }
+    }
+}
