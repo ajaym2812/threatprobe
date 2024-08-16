@@ -28,7 +28,7 @@ pipeline {
 
         stage('Check secrets') {
             steps {
-                sh 'trufflehog3 https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true'
+                sh 'trufflehog https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true'
                 sh '''
                 curl -X POST "http://${DOJO_IP}:8080/api/v2/import-scan/" \
                     -H "Authorization: Token ${API_KEY}" \
