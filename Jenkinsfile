@@ -16,7 +16,7 @@ stages {
                 cleanWs()
             }
         }
-  
+}
   stages {
       stage ('Initialize') {
           steps {
