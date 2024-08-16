@@ -29,7 +29,7 @@ stages {
       }
  }
       
-      stage ('Check secrets') {
+      stages ('Check secrets') {
           steps {
               sh 'trufflehog3 https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true'
 		  sh '''
@@ -44,7 +44,7 @@ stages {
             }
         }
       
-      stage ('Software composition analysis') {
+      stages ('Software composition analysis') {
           steps {
           dependencyCheck additionalArguments: ''' 
           -o "./" 
@@ -67,7 +67,7 @@ stages {
           
       }
 
-   stage ('SAST - SonarQube') {
+   stages ('SAST - SonarQube') {
       steps {
         withSonarQubeEnv('sonarqube') {
 	  
@@ -86,7 +86,7 @@ stages {
 			        
 	 		 //  }
 	 		// }
-stage('Deploy to server') {
+stages('Deploy to server') {
             steps {
                     script {
                         def warFile = '/var/lib/jenkins/workspace/devsecops-pipeline/webgoat-server/target/webgoat-2023.8.jar'
@@ -107,7 +107,7 @@ stage('Deploy to server') {
 
 	
 
-	stage ('DAST - OWASP ZAP') {
+	stages ('DAST - OWASP ZAP') {
             steps {
            sshagent(['deploy-ssh']) {
                     sh '''
