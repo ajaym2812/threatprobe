@@ -9,7 +9,7 @@ pipeline {
         API_KEY = credentials('dojo_api_token')
         DOJO_IP = "35.154.229.151"
     }
-        }
+        
 
         stage('Initialize') {
             steps {
