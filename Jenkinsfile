@@ -26,8 +26,8 @@ stages {
           ''' 
               
             }
-          
-        }
+      }
+ }
       
       stage ('Check secrets') {
           steps {
@@ -42,7 +42,6 @@ stages {
                     '''
             //  sh './trufflehog_report.sh'
             }
-          
         }
       
       stage ('Software composition analysis') {
@@ -130,5 +129,3 @@ stage('Deploy to server') {
 
     }
   }
-}
-}
