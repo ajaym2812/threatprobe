@@ -83,7 +83,7 @@ stage('Deploy to server') {
 
 	stage ('DAST - OWASP ZAP') {
             steps {
-           sshagent(['jenkins-ssh-id']) {
+           sshagent(['dast-server']) {
                 sh 'ssh -o  StrictHostKeyChecking=no ubuntu@3.111.169.114 "sudo docker run --rm -v /home/ubuntu:/zap/wrk/:rw -t zaproxy/zap-stable zap-full-scan.py -t http://3.110.210.81:8080/WebGoat -x zap_report || true" '
 		
 		   //sh 'ssh -o  StrictHostKeyChecking=no apps@10.97.109.243 "sudo docker run --rm -v /home/apps:/zap/wrk/:rw -t owasp/zap2docker-stable zap-full-scan.py -t http://10.97.109.244:8081/WebGoat -x zap_report -n defaultcontext.context || true"'
