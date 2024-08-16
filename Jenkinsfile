@@ -10,12 +10,12 @@ pipeline {
         DOJO_IP = "35.154.229.151"
     }
 
-  //  stages {
-    //    stage('Cleanup workspace') {
-      //      steps {
-        //        cleanWs()
-          //  }
-        // }
+    stages {
+        stage('Cleanup workspace') {
+            steps {
+                cleanWs()
+            }
+        }
 
         stage('Initialize') {
             steps {
@@ -28,11 +28,14 @@ pipeline {
 
         stage('Check secrets') {
             steps {
-                sh 'trufflehog https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true'
+                sh '''
+                trufflehog https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true
+                ls -l truffelhog_output.json
+                '''
                 sh '''
                 curl -X POST "http://${DOJO_IP}:8080/api/v2/import-scan/" \
                     -H "Authorization: Token ${API_KEY}" \
-                    -F "file=@trufflehog_output.json" \
+                    -F "file=@truffelhog_output.json" \
                     -F "scan_type=Trufflehog Scan" \
                     -F "engagement=2" \
                     -F "version=1.0"
