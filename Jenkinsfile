@@ -29,16 +29,16 @@ pipeline {
         stage('Check secrets') {
             steps {
                 sh '''
-                sh 'trufflehog https://github.com/ajaym2812/threatprobe.git --json > trufflehog_output.json || true'
-                ls -l truffelhog_output.json
-                '''
-                sh '''
-                curl -X POST "http://${DOJO_IP}:8080/api/v2/import-scan/" \
-                    -H "Authorization: Token ${API_KEY}" \
-                    -F "file=@truffelhog_output.json" \
-                    -F "scan_type=Trufflehog Scan" \
-                    -F "engagement=2" \
-                    -F "version=1.0"
+                sh 'trufflehog https://github.com/ajaym2812/threatprobe.git --json > trufflehog_output.json // || true'
+                // ls -l truffelhog_output.json
+                // '''
+                // sh '''
+                // curl -X POST "http://${DOJO_IP}:8080/api/v2/import-scan/" \
+                //     -H "Authorization: Token ${API_KEY}" \
+                //     -F "file=@truffelhog_output.json" \
+                //     -F "scan_type=Trufflehog Scan" \
+                //     -F "engagement=2" \
+                //     -F "version=1.0"
                 '''
             }
         }
