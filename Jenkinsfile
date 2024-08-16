@@ -29,7 +29,7 @@ pipeline {
         stage('Check secrets') {
             steps {
                 sh '''
-                trufflehog https://github.com/ajaym2812/threatprobe.git -f json -o truffelhog_output.json || true
+                sh 'trufflehog https://$GITHUB_TOKEN@github.com/ajaym2812/threatprobe.git --json > trufflehog_output.json || true'
                 ls -l truffelhog_output.json
                 '''
                 sh '''
