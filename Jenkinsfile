@@ -10,12 +10,12 @@ pipeline {
         DOJO_IP = "35.154.229.151"
     }
 
-    stages {
-        stage('Cleanup workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+  //  stages {
+    //    stage('Cleanup workspace') {
+      //      steps {
+        //        cleanWs()
+          //  }
+        // }
 
         stage('Initialize') {
             steps {
