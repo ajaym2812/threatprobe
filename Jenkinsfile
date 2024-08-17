@@ -77,12 +77,12 @@ pipeline {
         stage('Deploy to Server') {
             steps {
                 script {
-                    def warFile = '/var/lib/jenkins/workspace/devsecops-pipeline/webgoat-server/webgoat-2023.8.jar'
+                    //def warFile = '/var/lib/jenkins/workspace/devsecops-pipeline/webgoat-server/webgoat-2023.8.jar'
                    
                     sshagent(['app-server']) {
-                        sh """
-                        scp -o StrictHostKeyChecking=no ${warFile} ubuntu@3.110.210.81:/WebGoat
-                        """
+                        // sh """
+                        // scp -o StrictHostKeyChecking=no ${warFile} ubuntu@3.110.210.81:/WebGoat
+                        // """
                        
                         sh """
                         ssh -o StrictHostKeyChecking=no ubuntu@3.110.210.81 \
